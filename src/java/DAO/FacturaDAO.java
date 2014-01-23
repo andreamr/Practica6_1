@@ -53,7 +53,7 @@ public class FacturaDAO {
                 if((articulo1=getArticuloFactura(con, factura, articulo))!=null) {
                     
                     stmt = con.prepareStatement("DELETE FROM articulo_factura "
-                                            + " WHERE Factra_idFactura=? and Articulo_idArticulo=?");
+                                            + " WHERE Factura_idFactura=? and Articulo_idArticulo=?");
                     stmt.setInt(1,factura.getId());
                     stmt.setInt(2,articulo.getId());
                     stmt.executeUpdate();

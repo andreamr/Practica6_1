@@ -49,31 +49,52 @@ public class EditaFacturaCommand extends ICommand {
     public String execute(HttpServletRequest request, 
                           HttpServletResponse response) throws Exception {
     
-      //tema6_3 pag 33
+      
         try {
             String productoId=request.getParameter("productoElegido");
             String cantidad=request.getParameter("cantidad");
             String idFactura=request.getParameter("idFactura");
-            if ((productoId!=null) && ((cantidad!=null))) {
-                // pasamos a añadir ese producto a la factura
+
+            // este parametro existe si se pulsa uno de los enlaces Eliminar
+            String borraArticulo=request.getParameter("borraArticulo");
+            
+            if(borraArticulo!=null) { // se pulso en borrar articulo
                 FacturaBLL facturaBLL = new FacturaBLL();
                 Cliente cliente = (Cliente) request.getSession().getAttribute("ClienteSesion");
                 Factura factura=new Factura();
-                factura.setId(Integer.parseInt(idFactura));
-                
+                factura.setId(Integer.parseInt(idFactura));                
                 Articulo articulo=new Articulo();
-                articulo.setId(Integer.parseInt(productoId));
-                facturaBLL.addArticulo(cliente, factura, articulo, Integer.parseInt(cantidad));
-                //se ha actualizado la factura
+                articulo.setId(Integer.parseInt(borraArticulo)); 
+                facturaBLL.removeArticulo(cliente, factura, articulo);
+                //se ha actualizado la factura y el saldo del cliente
                 
-                factura=facturaBLL.getArticulosFactura(factura);
-                //se ha actualizado el saldo del cliente desde la logica de negocio
-                
-                // ClienteBLL clienteBLL = new ClienteBLL();
-                // cliente=clienteBLL.findByDNI(cliente);
-                // request.getSession().setAttribute("ClienteSesion", cliente);
-                
+                // recargar la factura para que la vista los muestre
+                factura=facturaBLL.getArticulosFactura(factura); 
                 request.setAttribute("FacturaCliente",factura);
+            } else {
+                if ((productoId!=null) && ((cantidad!=null))) {
+                    // pasamos a añadir ese producto a la factura
+                    FacturaBLL facturaBLL = new FacturaBLL();
+                    Cliente cliente = (Cliente) request.getSession().getAttribute("ClienteSesion");
+                    Factura factura=new Factura();
+                    factura.setId(Integer.parseInt(idFactura));
+
+                    Articulo articulo=new Articulo();
+                    articulo.setId(Integer.parseInt(productoId));
+                    facturaBLL.addArticulo(cliente, factura, articulo, Integer.parseInt(cantidad));
+                    //se ha actualizado la factura
+
+                    factura=facturaBLL.getArticulosFactura(factura);
+                    
+                    // Ha cambiado el saldo del cliente desde la logica de negocio
+                    // recargar de nuevo el cliente en el atributo de sesión
+                    // para que la vista lo muestre
+                    ClienteBLL clienteBLL = new ClienteBLL();
+                    cliente=clienteBLL.findByDNI(cliente);
+                    request.getSession().setAttribute("ClienteSesion", cliente);
+
+                    request.setAttribute("FacturaCliente",factura);
+                }
             }
             return "editarFactura.jsp";
         } catch (ProgException e) {

@@ -45,9 +45,7 @@
                     <tr>
                         <td><%=articulo.getDescripcion()%></td>
                         <td><%=articulo.getCantidadComprada()%></td>
-                        <td><a href="Controller?opID=EditaFactura&idFactura=
-                               <jsp:getProperty name="FacturaCliente" property="id" />
-                               &borraArticulo=<%=articulo.getId()%>">Eliminar</a></td>
+                        <td><a href="Controller?opID=EditaFactura&idFactura=<jsp:getProperty name="FacturaCliente" property="id" />&borraArticulo=<%=articulo.getId()%>">Eliminar</a></td>
                     </tr>
                 <% } %> 
         </table>

@@ -16,14 +16,16 @@
 <body>
     <table  border=2 width="100%">
         <tr>
-            <td height="5%" bgcolor="blue" colspan="2">
+            <td height="5%" bgcolor="green" colspan="2">
                 <table width="100%">
                     <tr>
                         <td style="color:white" align="center" width="75%">Aplicación web</td>
                         <td style="color:white" align="right">
                             <%Cliente clienteSesion=(Cliente) request.getSession().getAttribute("ClienteSesion");
                                 if (clienteSesion!= null) { %>
-                                    <%=clienteSesion.getNombreCompuesto()%><%}%>
+                                    <%=clienteSesion.getNombreCompuesto()%>
+                                    - <a href="Controller?opID=Logout">Logout</a>
+                               <%}%>
                                     
                         </td>
                     </tr>

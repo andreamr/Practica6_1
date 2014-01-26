@@ -68,6 +68,13 @@ public class EditaFacturaCommand extends ICommand {
                 facturaBLL.removeArticulo(cliente, factura, articulo);
                 //se ha actualizado la factura y el saldo del cliente
                 
+                // recargar de nuevo el cliente en el atributo de sesión
+                // para que la vista lo muestre
+                
+                ClienteBLL clienteBLL = new ClienteBLL();
+                cliente=clienteBLL.findByDNI(cliente);
+                request.getSession().setAttribute("ClienteSesion", cliente);                
+                
                 // recargar la factura para que la vista los muestre
                 factura=facturaBLL.getArticulosFactura(factura); 
                 request.setAttribute("FacturaCliente",factura);
@@ -84,15 +91,15 @@ public class EditaFacturaCommand extends ICommand {
                     facturaBLL.addArticulo(cliente, factura, articulo, Integer.parseInt(cantidad));
                     //se ha actualizado la factura
 
-                    factura=facturaBLL.getArticulosFactura(factura);
-                    
                     // Ha cambiado el saldo del cliente desde la logica de negocio
                     // recargar de nuevo el cliente en el atributo de sesión
                     // para que la vista lo muestre
+                    
                     ClienteBLL clienteBLL = new ClienteBLL();
                     cliente=clienteBLL.findByDNI(cliente);
                     request.getSession().setAttribute("ClienteSesion", cliente);
 
+                    factura=facturaBLL.getArticulosFactura(factura);
                     request.setAttribute("FacturaCliente",factura);
                 }
             }

@@ -69,6 +69,8 @@ public class FacturaBLL {
             float importeCompra = articulo1.getCantidadComprada() * articulo.getPrecio();
             
             ClienteDAO clienteDAO = new ClienteDAO();
+            
+            cliente = clienteDAO.findByDNI(_con, cliente);//Recuperamos los datos del cliente
             cliente.setSaldo(cliente.getSaldo() + importeCompra);
             clienteDAO.updateSaldo(_con, cliente); //Actualiza el saldo del cliente
                    

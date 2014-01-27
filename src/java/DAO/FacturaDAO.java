@@ -6,6 +6,7 @@
 package DAO;
 import Entidad.Articulo;
 import Entidad.Cliente;
+import Entidad.Exceptions.ProgException;
 import Entidad.Factura;
 import Entidad.Utilidad.Log;
 import com.mysql.jdbc.Statement;
@@ -19,7 +20,7 @@ import java.sql.SQLException;
  * @author victor
  */
 public class FacturaDAO {
-    public Factura creaFactura(Connection con, Factura factura,Cliente cliente) throws Exception
+    public Factura creaFactura(Connection con, Factura factura,Cliente cliente) throws ProgException, Exception
     {
            PreparedStatement stmt=null;
            try {
@@ -36,7 +37,7 @@ public class FacturaDAO {
             } catch (SQLException ex) {
                 //ex.printStackTrace();
                 Log.getInstance().error(ex);
-                throw new Exception("Ha habido un problema al insertar la factura "+ex.getMessage());
+                throw new ProgException("Ha habido un problema al insertar la factura "+ex.getMessage());
             }finally
             {
                  if (stmt != null) stmt.close();//Cerramos el Statement 
@@ -44,7 +45,7 @@ public class FacturaDAO {
            return factura;
     }
     
-    public Articulo removeArticulo(Connection con,Factura factura,Articulo articulo) throws Exception
+    public Articulo removeArticulo(Connection con,Factura factura,Articulo articulo) throws ProgException,Exception
     {
            Articulo articulo1=null; 
            PreparedStatement stmt=null;
@@ -61,7 +62,7 @@ public class FacturaDAO {
             } catch (SQLException ex) {
                 //ex.printStackTrace();
                 Log.getInstance().error(ex);
-                throw new Exception("Ha habido un problema al borrar el articulo en la factura "+ex.getMessage());
+                throw new ProgException("Ha habido un problema al borrar el articulo en la factura "+ex.getMessage());
             }  finally
             {
                 if (stmt != null) stmt.close();//Cerramos el Statement 
@@ -70,7 +71,7 @@ public class FacturaDAO {
     }
 
 
-    public void addArticulo(Connection con,Factura factura,Articulo articulo,int numero) throws Exception
+    public void addArticulo(Connection con,Factura factura,Articulo articulo,int numero) throws ProgException,Exception
     {
            PreparedStatement stmt=null;
            try {            
@@ -82,14 +83,14 @@ public class FacturaDAO {
             } catch (SQLException ex) {
                 //ex.printStackTrace();
                 Log.getInstance().error(ex);
-                throw new Exception("Ha habido un problema al insertar el articulo en la factura "+ex.getMessage());
+                throw new ProgException("Ha habido un problema al insertar el articulo en la factura "+ex.getMessage());
             }  finally
             {
                 if (stmt != null) stmt.close();//Cerramos el Statement 
             }     
     }
 
-    public Factura getArticulosFactura(Connection con,Factura factura) throws Exception
+    public Factura getArticulosFactura(Connection con,Factura factura) throws ProgException,Exception
     {
         ResultSet rs=null;
         PreparedStatement stmt=null;   
@@ -111,7 +112,7 @@ public class FacturaDAO {
             } catch (SQLException ex) {
                 //ex.printStackTrace();
                 Log.getInstance().error(ex);
-                throw new Exception("Ha habido un problema al los articulos de la factura "+ex.getMessage());
+                throw new ProgException("Ha habido un problema al los articulos de la factura "+ex.getMessage());
             } finally
             {
                 if (rs != null) rs.close(); //Cerramos el resulset
@@ -119,7 +120,7 @@ public class FacturaDAO {
             }
         return factura;
     }
-    public Articulo getArticuloFactura(Connection con,Factura factura,Articulo articulo) throws Exception
+    public Articulo getArticuloFactura(Connection con,Factura factura,Articulo articulo) throws ProgException,Exception
     {
         Articulo articulo1=null;
         ResultSet rs=null;
@@ -145,7 +146,7 @@ public class FacturaDAO {
             } catch (SQLException ex) {
                 //ex.printStackTrace();
                 Log.getInstance().error(ex);
-                throw new Exception("Ha habido un problema al buscar un articulo de la factura "+ex.getMessage());
+                throw new ProgException("Ha habido un problema al buscar un articulo de la factura "+ex.getMessage());
             } finally
             {
                 if (rs != null) rs.close(); //Cerramos el resulset

@@ -88,7 +88,11 @@ public class EditaFacturaCommand extends ICommand {
 
                     Articulo articulo=new Articulo();
                     articulo.setId(Integer.parseInt(productoId));
-                    facturaBLL.addArticulo(cliente, factura, articulo, Integer.parseInt(cantidad));
+                    try {
+                        facturaBLL.addArticulo(cliente, factura, articulo, Integer.parseInt(cantidad));
+                    } catch (NumberFormatException ex){
+                        throw new ProgException("Introduzca una cantidad válida");
+                    }
                     //se ha actualizado la factura
 
                     // Ha cambiado el saldo del cliente desde la logica de negocio

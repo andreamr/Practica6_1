@@ -10,6 +10,7 @@ import DAO.Conexion_DB;
 import DAO.FacturaDAO;
 import Entidad.Articulo;
 import Entidad.Cliente;
+import Entidad.Exceptions.ProgException;
 import Entidad.Factura;
 import Entidad.Utilidad.Fechas;
 import java.sql.Connection;
@@ -21,9 +22,9 @@ import java.sql.Connection;
 public class FacturaBLL {
 
     public Factura crearFactura(Cliente cliente) throws Exception {
-        Connection con=null;
+        
         Conexion_DB conexionDB = new Conexion_DB();
-        con = conexionDB.AbrirConexion();// Abrimos la conexión
+        Connection con = conexionDB.AbrirConexion();// Abrimos la conexión
         FacturaDAO facturaDAO=new FacturaDAO();
         Factura factura=new Factura();
         int fecha=Fechas.getInstance().getFechaToInt();
@@ -34,9 +35,9 @@ public class FacturaBLL {
     }
     
     public Factura getArticulosFactura(Factura factura) throws Exception {
-        Connection con=null;
+        
         Conexion_DB conexionDB = new Conexion_DB();
-        con = conexionDB.AbrirConexion();// Abrimos la conexión
+        Connection con = conexionDB.AbrirConexion();// Abrimos la conexión
         FacturaDAO facturaDAO=new FacturaDAO();  
         int fecha=Fechas.getInstance().getFechaToInt();
         factura.setFecha(fecha);
@@ -87,7 +88,7 @@ public class FacturaBLL {
     }
     
     public void addArticulo(Cliente cliente, Factura factura,
-            Articulo articulo, int numero) throws Exception {
+            Articulo articulo, int numero) throws ProgException, Exception  {
         
         Connection _con = null;
         try {
@@ -109,13 +110,13 @@ public class FacturaBLL {
                         cliente.setSaldo(cliente.getSaldo() - _precioCompra);
                         _clienteDAO.updateSaldo(_con, cliente);//Actualiza el saldo del cliente
                     } else {
-                        throw new Exception("No tiene suficiente saldo para realizar la operación");
+                        throw new ProgException("No tiene suficiente saldo para realizar la operación");
                     }
                 } else {
-                    throw new Exception("No queda suficiente stock");
+                    throw new ProgException("No queda suficiente stock");
                 }
             } else {
-                throw new Exception("Usted es moroso");
+                throw new ProgException("Usted es moroso");
             }
             _con.commit(); //Ejecutamos la operación
             _conexion_DB.CerrarConexion(_con); //Cerramos la conexión */

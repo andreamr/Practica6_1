@@ -11,6 +11,7 @@ import Entidad.Articulo;
 import Entidad.Cliente;
 import Entidad.Exceptions.ProgException;
 import Entidad.Factura;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,25 +25,39 @@ public class EditaFacturaCommand extends ICommand {
                           HttpServletResponse response)  throws Exception {
          
          String idFactura = request.getParameter("idFactura");
+         // la pantalla requiere de un listado de articulos para añadir
+         ArticuloBLL articuloBLL = new ArticuloBLL();
          
          if ((idFactura==null) || (idFactura.equals("0"))) 
          { // si se da un error controlado, o se quiere añadir un producto
            // a la Factura, no se genera una nueva  factura si ya existe
-             FacturaBLL facturaBLL= new FacturaBLL();
-             Cliente cliente=(Cliente) request.getSession().getAttribute("ClienteSesion");
-             Factura factura=facturaBLL.crearFactura(cliente);
-             request.setAttribute("FacturaCliente",factura);
+            FacturaBLL facturaBLL= new FacturaBLL();
+            Cliente cliente=(Cliente) request.getSession().getAttribute("ClienteSesion");
+            Factura factura=facturaBLL.crearFactura(cliente);
+            request.setAttribute("FacturaCliente",factura);
+            request.setAttribute("listadoArticulos", articuloBLL.listaArticulos());
          } else
          { // la pantalla requiere de una factura y de los articulos que la componen
-             Factura factura = new Factura();
-             factura.setId(Integer.parseInt(idFactura));
-             FacturaBLL facturaBLL=new FacturaBLL();
-             factura=facturaBLL.getArticulosFactura(factura);
-             request.setAttribute("FacturaCliente",factura);
+            Factura factura = new Factura();
+            factura.setId(Integer.parseInt(idFactura));
+            FacturaBLL facturaBLL=new FacturaBLL();
+            factura=facturaBLL.getArticulosFactura(factura);
+            request.setAttribute("FacturaCliente",factura);
+            List<Articulo> listadoArticulos = 
+                (List<Articulo>) articuloBLL.listaArticulos();
+             // quitar del listadoArticulos el articulosAñadido
+            for(Articulo af: factura.getArticulos()){
+                for(Articulo a : listadoArticulos){
+                    if(a.getId()==af.getId()) {
+                        listadoArticulos.remove(a);
+                        break;
+                    }
+                }
+            }
+            request.setAttribute("listadoArticulos", listadoArticulos);
          }
-         // la pantalla requiere de un listado de articulos para añadir
-         ArticuloBLL articuloBLL = new ArticuloBLL();
-         request.setAttribute("listadoArticulos", articuloBLL.listaArticulos());
+         
+         
     }
     
     @Override
@@ -78,6 +93,18 @@ public class EditaFacturaCommand extends ICommand {
                 // recargar la factura para que la vista los muestre
                 factura=facturaBLL.getArticulosFactura(factura); 
                 request.setAttribute("FacturaCliente",factura);
+                ArticuloBLL articuloBLL = new ArticuloBLL();
+                List<Articulo> listadoArticulos = articuloBLL.listaArticulos();
+                 // quitar del listadoArticulos los articulos facturados
+                for(Articulo af: factura.getArticulos()){
+                    for(Articulo a : listadoArticulos){
+                        if(a.getId()==af.getId()) {
+                            listadoArticulos.remove(a);
+                            break;
+                        }
+                    }
+                }
+                request.setAttribute("listadoArticulos", listadoArticulos);
             } else {
                 if ((productoId!=null) && ((cantidad!=null))) {
                     // pasamos a añadir ese producto a la factura
@@ -105,6 +132,18 @@ public class EditaFacturaCommand extends ICommand {
 
                     factura=facturaBLL.getArticulosFactura(factura);
                     request.setAttribute("FacturaCliente",factura);
+                    ArticuloBLL articuloBLL = new ArticuloBLL();
+                    List<Articulo> listadoArticulos = articuloBLL.listaArticulos();
+                     // quitar del listadoArticulos el articulosAñadido
+                    for(Articulo af: factura.getArticulos()){
+                        for(Articulo a : listadoArticulos){
+                            if(a.getId()==af.getId()) {
+                                listadoArticulos.remove(a);
+                                break;
+                            }
+                        }
+                    }
+                    request.setAttribute("listadoArticulos", listadoArticulos);                    
                 }
             }
             return "editarFactura.jsp";

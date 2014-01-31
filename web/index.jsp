@@ -7,6 +7,29 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
+<style>
+h2 {
+    border:1px solid #00cccc;
+    border-right: 3px solid #00cccc;
+    border-bottom: 3px solid #00cccc;
+    border-radius: 10px;
+    background-color: #99ff99;
+    text-align: center;
+    margin: 20px;
+}    
+ul {
+    border:1px solid #00cccc;
+    border-right: 3px solid #00cccc;
+    border-bottom: 3px solid #00cccc;
+    border-radius: 10px;
+    background-color: #99ff99;
+    margin: 20px;
+}
+li {
+    background:#99ff99;
+    border-bottom: 1px #ff0033
+}
+</style>
 
 <%@page import="Entidad.Cliente"%>
 <html>

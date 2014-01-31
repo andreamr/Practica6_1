@@ -34,6 +34,34 @@ public class FacturaBLL {
         return factura;        
     }
 
+    public Factura borrarFactura(Factura factura) throws Exception {
+        
+        Conexion_DB conexionDB = new Conexion_DB();
+        Connection con = conexionDB.AbrirConexion();// Abrimos la conexión
+
+        FacturaDAO facturaDAO = new FacturaDAO();
+        factura=facturaDAO.findById(con, factura);
+        
+        ClienteDAO clienteDAO = new ClienteDAO();
+        Cliente cliente=new Cliente();
+        
+        cliente.setDNI(factura.getCliente_dni());
+        cliente=clienteDAO.findByDNI(con, cliente);
+        
+        factura=facturaDAO.getArticulosFactura(con, factura);
+        // borrar uno a uno los articulos actualizando el stock de cada articulo
+        // y el saldo del cliente
+        for(Articulo a:factura.getArticulos()){
+            borraArticulo(cliente, factura, a);
+        }
+        // finalmente eliminar la factura
+        facturaDAO.borraFactura(con, factura);
+        conexionDB.CerrarConexion(con); // cerramos la conexión
+        return factura;        
+    }
+
+    
+    
     public Factura findById(Factura factura) throws Exception {
         
         Conexion_DB conexionDB = new Conexion_DB();
@@ -55,7 +83,7 @@ public class FacturaBLL {
         return factura;  
         
     }
-    public void removeArticulo(Cliente cliente,Factura factura, Articulo articulo) throws Exception {
+    public void borraArticulo(Cliente cliente,Factura factura, Articulo articulo) throws Exception {
         Connection _con = null;
         Articulo articulo1=null;
         try {
@@ -66,7 +94,7 @@ public class FacturaBLL {
             
             FacturaDAO facturaDAO = new FacturaDAO();
             
-            articulo1 = facturaDAO.removeArticulo(_con, factura, articulo); // elimina la línea de factura
+            articulo1 = facturaDAO.borraArticulo(_con, factura, articulo); // elimina la línea de factura
             // en articulo1 tenemos la cantidadComprada 
             
             //cargamos el articulo de la base da datos

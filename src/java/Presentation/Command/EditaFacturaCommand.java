@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author alumno_tarde
  */
 public class EditaFacturaCommand extends ICommand {
-    //@Override
+    @Override
     public void initPage(HttpServletRequest request, 
                           HttpServletResponse response)  throws Exception {
          
@@ -85,7 +85,7 @@ public class EditaFacturaCommand extends ICommand {
             Articulo articulo=new Articulo(); // para añadir o borrar
             if(borraArticulo!=null) { // se pulso en borrar articulo
                 articulo.setId(Integer.parseInt(borraArticulo)); 
-                facturaBLL.removeArticulo(cliente, factura, articulo);
+                facturaBLL.borraArticulo(cliente, factura, articulo);
                 //se ha actualizado la factura y el saldo del cliente
             } else {
                 if ((productoId!=null) && ((cantidad!=null))) {

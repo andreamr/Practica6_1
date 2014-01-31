@@ -36,6 +36,7 @@ public class FacturaDAO {
                factura1=new Factura();
                factura1.setId(rs.getInt("idFactura"));
                factura1.setFecha(rs.getInt("Fecha"));
+               factura1.setCliente_dni(rs.getInt("Cliente_DNI"));
             }
                          
         } catch (SQLException ex) {
@@ -76,8 +77,29 @@ public class FacturaDAO {
             }
            return factura;
     }
+
+    public Factura borraFactura(Connection con, Factura factura) throws ProgException, Exception
+    {
+           PreparedStatement stmt=null;
+           try {
+
+                stmt = con.prepareStatement("DELETE FROM factura WHERE idFactura=?");
+                stmt.setInt(1,factura.getId());
+                stmt.executeUpdate();
+
+            } catch (SQLException ex) {
+                //ex.printStackTrace();
+                Log.getInstance().error(ex);
+                throw new ProgException("Ha habido un problema al insertar la factura "+ex.getMessage());
+            }finally
+            {
+                 if (stmt != null) stmt.close();//Cerramos el Statement 
+            }
+           return factura;
+    }
     
-    public Articulo removeArticulo(Connection con,Factura factura,Articulo articulo) throws ProgException,Exception
+    
+    public Articulo borraArticulo(Connection con,Factura factura,Articulo articulo) throws ProgException,Exception
     {
            Articulo articulo1=null; 
            PreparedStatement stmt=null;

@@ -1,10 +1,11 @@
+<%@page import="Entidad.Utilidad.Fechas"%>
 <%@page import="Entidad.Articulo" %>
 <%@page import="java.util.List" %>
 <jsp:useBean id="ClienteSesion" scope="session" class="Entidad.Cliente" />
 <jsp:useBean id="FacturaCliente" scope="request" class="Entidad.Factura" />
 <!-- Mostrar el clienteSesion -->
-<br>ClienteSesion: <%=ClienteSesion.getNombreCompuesto()%>
-
+ClienteSesion: <%=ClienteSesion.getNombreCompuesto()%><br>
+Fecha Factura: <%=Fechas.getInstance().getFechaFormat(FacturaCliente.getFecha(), "dd/MM/yyyy") %>
 <br>IdFactura:<jsp:getProperty name="FacturaCliente" property="id" />
 <br>
 <form action="Controller?opID=EditaFactura" method="POST">

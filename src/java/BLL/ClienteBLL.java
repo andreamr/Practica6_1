@@ -9,6 +9,7 @@ import DAO.ClienteDAO;
 import DAO.Conexion_DB;
 import Entidad.Cliente;
 import Entidad.Exceptions.ProgException;
+import Entidad.Factura;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,5 +64,14 @@ public class ClienteBLL {
         return clienteObtenido;  
         
     }
+    
+    public Cliente getFacturasCliente(Cliente cliente) throws Exception{
+        
+        Conexion_DB conexionDB = new Conexion_DB();
+        Connection con = conexionDB.AbrirConexion();// Abrimos la conexión
+        ClienteDAO clienteDAO=new ClienteDAO();  
+        cliente=clienteDAO.getClienteFacturas(con, cliente);
+        conexionDB.CerrarConexion(con); // cerramos la conexión
+        return cliente;      }
 
 }

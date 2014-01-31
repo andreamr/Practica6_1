@@ -33,14 +33,23 @@ public class FacturaBLL {
         conexionDB.CerrarConexion(con); // cerramos la conexión
         return factura;        
     }
+
+    public Factura findById(Factura factura) throws Exception {
+        
+        Conexion_DB conexionDB = new Conexion_DB();
+        Connection con = conexionDB.AbrirConexion();// Abrimos la conexión
+        FacturaDAO facturaDAO=new FacturaDAO();
+        factura=facturaDAO.findById(con, factura);
+        conexionDB.CerrarConexion(con); // cerramos la conexión
+        return factura;        
+    }
+
     
     public Factura getArticulosFactura(Factura factura) throws Exception {
         
         Conexion_DB conexionDB = new Conexion_DB();
         Connection con = conexionDB.AbrirConexion();// Abrimos la conexión
         FacturaDAO facturaDAO=new FacturaDAO();  
-        int fecha=Fechas.getInstance().getFechaToInt();
-        factura.setFecha(fecha);
         factura=facturaDAO.getArticulosFactura(con, factura); // carga los articulos de la factura
         conexionDB.CerrarConexion(con); // cerramos la conexión
         return factura;  

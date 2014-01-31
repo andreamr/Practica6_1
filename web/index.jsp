@@ -38,7 +38,7 @@
           </td>
           <td width="75%">
               <%String _advertencia=(String) request.getAttribute("advertencia");
-              if(_advertencia != null){%><label style="color:red"><%=_advertencia%></label>
+              if(_advertencia != null){%><label style="color:red"><%=_advertencia%></label><br/>
               <%}%>            
               <% String  paginaprincipal=(String) request.getAttribute("paginaprincipal");
                  if(paginaprincipal!= null) { %>

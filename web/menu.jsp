@@ -4,4 +4,5 @@
     <% } else { %>
         <a href="Controller?opID=MostrarClientes">Clientes</a><br/>
         <a href="Controller?opID=EditaFactura">Comprar</a><br/>
+        <a href="Controller?opID=ListarFacturas">ListarFacturas</a><br/>
     <%}%>

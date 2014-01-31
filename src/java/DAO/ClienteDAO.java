@@ -110,13 +110,15 @@ public Cliente getClienteFacturas(Connection con,Cliente cliente) throws Excepti
                     "WHERE f.Cliente_DNI=?");
             stmt.setInt(1,cliente.getDNI());
             rs =stmt.executeQuery();
-            
+            List lista = new ArrayList();
             while (rs.next()) {
                 Factura factura=new Factura();
                 factura.setId(rs.getInt("idFactura"));
                 factura.setFecha(rs.getInt("Fecha"));
-                 cliente.getFacturas().add(factura); 
+                lista.add(factura);
             }
+            cliente.setFacturas(lista);
+            
          } catch (SQLException ex) {
            //ex.printStackTrace();
             Log.getInstance().error(ex);

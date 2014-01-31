@@ -14,12 +14,44 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author victor
  */
 public class FacturaDAO {
+
+    public Factura findById(Connection con, Factura factura) throws ProgException, Exception {
+       Factura factura1=null;
+       ResultSet rs=null;
+       PreparedStatement stmt=null;        
+       try {
+            stmt = con.prepareStatement("SELECT * FROM Factura WHERE idFactura=?");
+            stmt.setInt(1,factura.getId());
+            
+            rs =stmt.executeQuery();
+            if (rs.next()) {
+               factura1=new Factura();
+               factura1.setId(rs.getInt("idFactura"));
+               factura1.setFecha(rs.getInt("Fecha"));
+            }
+                         
+        } catch (SQLException ex) {
+           //ex.printStackTrace();
+           Log.getInstance().error(ex); 
+           throw new Exception("Ha habido un problema al buscar la factura "+ex.getMessage());
+        }  finally
+        {
+            if (rs != null) rs.close(); //Cerramos el resulset
+            if (stmt != null) stmt.close();//Cerramos el Statement 
+        } 
+       return factura1;
+        
+    }
+            
+
     public Factura creaFactura(Connection con, Factura factura,Cliente cliente) throws ProgException, Exception
     {
            PreparedStatement stmt=null;
@@ -102,13 +134,16 @@ public class FacturaDAO {
                 rs =stmt.executeQuery();
 
                 Articulo articulo1=null;
+                List lista = new ArrayList();
                 while (rs.next()) {
                    articulo1=new Articulo();
                    articulo1.setId(rs.getInt("Articulo_idArticulo"));
                    articulo1.setDescripcion(rs.getString("Descripcion"));                    
                    articulo1.setCantidadComprada(rs.getInt("Numero"));
-                   factura.getArticulos().add(articulo1);
+                   lista.add(articulo1);
                 }
+                factura.setArticulos(lista);
+                
             } catch (SQLException ex) {
                 //ex.printStackTrace();
                 Log.getInstance().error(ex);

@@ -41,7 +41,7 @@ public Articulo findById(Connection con, Articulo articulo) throws Exception
         } catch (SQLException ex) {
            //ex.printStackTrace();
            Log.getInstance().error(ex); 
-           throw new Exception("Ha habido un problema al actualizar el Stock "+ex.getMessage());
+           throw new Exception("Ha habido un problema al buscar el articulo "+ex.getMessage());
         }  finally
         {
             if (rs != null) rs.close(); //Cerramos el resulset

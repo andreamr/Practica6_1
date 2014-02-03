@@ -24,14 +24,14 @@ public class BorraFacturaCommand extends ICommand {
         String idFactura=request.getParameter("idFactura");
          
         try {    
+            ClienteBLL clienteBLL = new ClienteBLL();
+            Cliente cliente = (Cliente) request.getSession().getAttribute("ClienteSesion");
             if((idFactura!=null)) {
                 FacturaBLL facturaBLL= new FacturaBLL();
                 Factura factura = new Factura();        
                 factura.setId(Integer.parseInt(idFactura));
-                facturaBLL.borrarFactura(factura);
+                facturaBLL.borrarFactura(factura,cliente);
             }
-            ClienteBLL clienteBLL = new ClienteBLL();
-            Cliente cliente = (Cliente) request.getSession().getAttribute("ClienteSesion");
             cliente= clienteBLL.getFacturasCliente(cliente);
             request.setAttribute("listaFacturas", cliente.getFacturas());
             

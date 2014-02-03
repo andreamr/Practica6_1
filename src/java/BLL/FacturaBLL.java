@@ -34,19 +34,13 @@ public class FacturaBLL {
         return factura;        
     }
 
-    public Factura borrarFactura(Factura factura) throws Exception {
+    public Factura borrarFactura(Factura factura,Cliente cliente) throws Exception {
         
         Conexion_DB conexionDB = new Conexion_DB();
         Connection con = conexionDB.AbrirConexion();// Abrimos la conexión
 
         FacturaDAO facturaDAO = new FacturaDAO();
         factura=facturaDAO.findById(con, factura);
-        
-        ClienteDAO clienteDAO = new ClienteDAO();
-        Cliente cliente=new Cliente();
-        
-        cliente.setDNI(factura.getCliente_dni());
-        cliente=clienteDAO.findByDNI(con, cliente);
         
         factura=facturaDAO.getArticulosFactura(con, factura);
         // borrar uno a uno los articulos actualizando el stock de cada articulo

@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class FacturaDAO {
 
-    public Factura findById(Connection con, Factura factura) throws ProgException, Exception {
+    public Factura findById(Connection con, Factura factura) throws  Exception {
        Factura factura1=null;
        ResultSet rs=null;
        PreparedStatement stmt=null;        
@@ -36,13 +36,12 @@ public class FacturaDAO {
                factura1=new Factura();
                factura1.setId(rs.getInt("idFactura"));
                factura1.setFecha(rs.getInt("Fecha"));
-               factura1.setCliente_dni(rs.getInt("Cliente_DNI"));
             }
                          
         } catch (SQLException ex) {
            //ex.printStackTrace();
            Log.getInstance().error(ex); 
-           throw new Exception("Ha habido un problema al buscar la factura "+ex.getMessage());
+           throw new ProgException("Ha habido un problema al buscar la factura "+ex.getMessage());
         }  finally
         {
             if (rs != null) rs.close(); //Cerramos el resulset
@@ -53,7 +52,7 @@ public class FacturaDAO {
     }
             
 
-    public Factura creaFactura(Connection con, Factura factura,Cliente cliente) throws ProgException, Exception
+    public Factura creaFactura(Connection con, Factura factura,Cliente cliente) throws  Exception
     {
            PreparedStatement stmt=null;
            try {
@@ -78,7 +77,7 @@ public class FacturaDAO {
            return factura;
     }
 
-    public Factura borraFactura(Connection con, Factura factura) throws ProgException, Exception
+    public Factura borraFactura(Connection con, Factura factura) throws  Exception
     {
            PreparedStatement stmt=null;
            try {
@@ -99,7 +98,7 @@ public class FacturaDAO {
     }
     
     
-    public Articulo borraArticulo(Connection con,Factura factura,Articulo articulo) throws ProgException,Exception
+    public Articulo borraArticulo(Connection con,Factura factura,Articulo articulo) throws Exception
     {
            Articulo articulo1=null; 
            PreparedStatement stmt=null;
@@ -125,7 +124,7 @@ public class FacturaDAO {
     }
 
 
-    public void addArticulo(Connection con,Factura factura,Articulo articulo,int numero) throws ProgException,Exception
+    public void addArticulo(Connection con,Factura factura,Articulo articulo,int numero) throws Exception
     {
            PreparedStatement stmt=null;
            try {            
@@ -144,7 +143,7 @@ public class FacturaDAO {
             }     
     }
 
-    public Factura getArticulosFactura(Connection con,Factura factura) throws ProgException,Exception
+    public Factura getArticulosFactura(Connection con,Factura factura) throws Exception
     {
         ResultSet rs=null;
         PreparedStatement stmt=null;   
@@ -177,7 +176,7 @@ public class FacturaDAO {
             }
         return factura;
     }
-    public Articulo getArticuloFactura(Connection con,Factura factura,Articulo articulo) throws ProgException,Exception
+    public Articulo getArticuloFactura(Connection con,Factura factura,Articulo articulo) throws Exception
     {
         Articulo articulo1=null;
         ResultSet rs=null;

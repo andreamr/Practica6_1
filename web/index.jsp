@@ -29,6 +29,26 @@ li {
     background:#99ff99;
     border-bottom: 1px #ff0033
 }
+a:link,a:visited{
+    color: blue;
+    background-color: silver;
+    border: 1px solid;
+    margin: 3px;
+    line-height: 1.5;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 0 5px;
+    border-radius: 3px;
+}
+a:hover  { 
+    font-weight: bold;
+    color: red;
+}
+
+#menu {
+    text-align: left;
+}
+
 </style>
 
 <%@page import="Entidad.Cliente"%>

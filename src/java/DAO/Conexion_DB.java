@@ -17,8 +17,9 @@ public class Conexion_DB {
         Connection con=null;  // instacia una conexión
         try {
            Class.forName("com.mysql.jdbc.Driver");  // Cargar el driver
-           String urlOdbc = "jdbc:mysql://localhost:3306/ClientesDB";
+           String urlOdbc = "jdbc:mysql://localhost:3306/clientesDB";
            con=(java.sql.DriverManager.getConnection(urlOdbc,"root",""));  //crea conexión
+           //con=(java.sql.DriverManager.getConnection(urlOdbc,"usuClientesDB",""));  //crea conexión
            return con;
          } catch(Exception ex){//SQLException y ClassNotFoundException
             //ex.printStackTrace();

@@ -8,6 +8,9 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
 <style>
+body{
+    background-color: rgba(186, 207, 224,100)
+}
 h2 {
     border:1px solid #00cccc;
     border-right: 3px solid #00cccc;

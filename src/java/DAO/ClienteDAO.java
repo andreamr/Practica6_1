@@ -106,7 +106,7 @@ public Cliente getClienteFacturas(Connection con,Cliente cliente) throws Excepti
     PreparedStatement stmt=null;    
     try {
             stmt = con.prepareStatement("SELECT f.idFactura, f.Fecha " +
-                    "FROM  factura f " +
+                    "FROM  Factura f " +
                     "WHERE f.Cliente_DNI=?");
             stmt.setInt(1,cliente.getDNI());
             rs =stmt.executeQuery();

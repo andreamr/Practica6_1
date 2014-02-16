@@ -57,7 +57,7 @@ public class FacturaDAO {
            PreparedStatement stmt=null;
            try {
 
-                stmt = con.prepareStatement("INSERT INTO FACTURA(Fecha,Cliente_DNI) VALUES(?,?)",Statement.RETURN_GENERATED_KEYS);
+                stmt = con.prepareStatement("INSERT INTO Factura(Fecha,Cliente_DNI) VALUES(?,?)",Statement.RETURN_GENERATED_KEYS);
                 stmt.setInt(1,factura.getFecha());
                 stmt.setInt(2,cliente.getDNI());
                 stmt.executeUpdate();
@@ -82,14 +82,14 @@ public class FacturaDAO {
            PreparedStatement stmt=null;
            try {
 
-                stmt = con.prepareStatement("DELETE FROM factura WHERE idFactura=?");
+                stmt = con.prepareStatement("DELETE FROM Factura WHERE idFactura=?");
                 stmt.setInt(1,factura.getId());
                 stmt.executeUpdate();
 
             } catch (SQLException ex) {
                 //ex.printStackTrace();
                 Log.getInstance().error(ex);
-                throw new ProgException("Ha habido un problema al insertar la factura "+ex.getMessage());
+                throw new ProgException("Ha habido un problema al borrar la factura "+ex.getMessage());
             }finally
             {
                  if (stmt != null) stmt.close();//Cerramos el Statement 
@@ -106,7 +106,7 @@ public class FacturaDAO {
                 // si hay un articulo en la factura obtenerlo antes de borrarlo
                 if((articulo1=getArticuloFactura(con, factura, articulo))!=null) {
                     
-                    stmt = con.prepareStatement("DELETE FROM articulo_factura "
+                    stmt = con.prepareStatement("DELETE FROM Articulo_Factura "
                                             + " WHERE Factura_idFactura=? and Articulo_idArticulo=?");
                     stmt.setInt(1,factura.getId());
                     stmt.setInt(2,articulo.getId());
@@ -128,7 +128,7 @@ public class FacturaDAO {
     {
            PreparedStatement stmt=null;
            try {            
-                stmt = con.prepareStatement("INSERT INTO articulo_factura VALUES(?,?,?)");
+                stmt = con.prepareStatement("INSERT INTO Articulo_Factura VALUES(?,?,?)");
                 stmt.setInt(1,articulo.getId());
                 stmt.setInt(2,factura.getId());
                 stmt.setInt(3,numero);
@@ -149,7 +149,7 @@ public class FacturaDAO {
         PreparedStatement stmt=null;   
         try {
                 stmt = con.prepareStatement("SELECT Articulo_idArticulo, Numero, Descripcion " +
-                        "FROM  articulo_factura af,articulo a " +
+                        "FROM  Articulo_Factura af,Articulo a " +
                         "WHERE af.Articulo_idArticulo=a.idArticulo AND af.Factura_idFactura=?");
                 stmt.setInt(1,factura.getId());
                 rs =stmt.executeQuery();
@@ -168,7 +168,7 @@ public class FacturaDAO {
             } catch (SQLException ex) {
                 //ex.printStackTrace();
                 Log.getInstance().error(ex);
-                throw new ProgException("Ha habido un problema al los articulos de la factura "+ex.getMessage());
+                throw new ProgException("Ha habido un problema al leer los articulos de la factura "+ex.getMessage());
             } finally
             {
                 if (rs != null) rs.close(); //Cerramos el resulset
@@ -183,7 +183,7 @@ public class FacturaDAO {
         PreparedStatement stmt=null;   
         try {
                 stmt = con.prepareStatement("SELECT Articulo_idArticulo, Numero, Descripcion " +
-                        "FROM  articulo_factura af, articulo a " +
+                        "FROM  Articulo_Factura af, Articulo a " +
                         "WHERE af.Articulo_idArticulo=a.idArticulo "
                         + "AND af.Factura_idFactura=? "
                         + "AND af.Articulo_idArticulo=?"

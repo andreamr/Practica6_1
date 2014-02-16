@@ -25,7 +25,7 @@ public Articulo findById(Connection con, Articulo articulo) throws Exception
        ResultSet rs=null;
        PreparedStatement stmt=null;        
        try {
-            stmt = con.prepareStatement("SELECT * FROM articulo WHERE idArticulo=?");
+            stmt = con.prepareStatement("SELECT * FROM Articulo WHERE idArticulo=?");
             stmt.setInt(1,articulo.getId());
             
             rs =stmt.executeQuery();
@@ -54,7 +54,7 @@ public void updateStock(Connection con, Articulo articulo) throws Exception
        PreparedStatement stmt=null;
        try {
             
-            stmt = con.prepareStatement("UPDATE articulo SET Stock=? WHERE idArticulo=?");
+            stmt = con.prepareStatement("UPDATE Articulo SET Stock=? WHERE idArticulo=?");
             
             stmt.setInt(1,articulo.getStock());
             stmt.setInt(2,articulo.getId());

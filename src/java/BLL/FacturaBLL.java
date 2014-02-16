@@ -41,15 +41,16 @@ public class FacturaBLL {
 
         FacturaDAO facturaDAO = new FacturaDAO();
         factura=facturaDAO.findById(con, factura);
-        
-        factura=facturaDAO.getArticulosFactura(con, factura);
-        // borrar uno a uno los articulos actualizando el stock de cada articulo
-        // y el saldo del cliente
-        for(Articulo a:factura.getArticulos()){
-            borraArticulo(cliente, factura, a);
-        }
-        // finalmente eliminar la factura
-        facturaDAO.borraFactura(con, factura);
+        if(factura!=null) {
+            factura=facturaDAO.getArticulosFactura(con, factura);
+            // borrar uno a uno los articulos actualizando el stock de cada articulo
+            // y el saldo del cliente
+            for(Articulo a:factura.getArticulos()){
+                borraArticulo(cliente, factura, a);
+            }
+            // finalmente eliminar la factura
+            facturaDAO.borraFactura(con, factura);
+        } 
         conexionDB.CerrarConexion(con); // cerramos la conexión
         return factura;        
     }
